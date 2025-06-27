@@ -1,0 +1,152 @@
+### Test Task Management System API
+
+### 1. Create Users
+
+### Create User 1 - Alice
+POST http://127.0.0.1:5000/users/
+Content-Type: application/json
+
+{
+  "user_id": 5,
+  "name": "Alice Smith",
+  "email": "alice@example.com"
+}
+
+### Create User 2 - Bob
+POST http://127.0.0.1:5000/users/
+Content-Type: application/json
+
+{
+  "user_id": 11,
+  "name": "Bob Johnson",
+  "email": "bob@example.com"
+}
+
+### Create User 3 with Invalid Email (should fail)
+POST http://127.0.0.1:5000/users/
+Content-Type: application/json
+
+{
+  "user_id": 6,
+  "name": "Invalid User",
+  "email": "invalid-email"
+}
+
+### 2. Task Operations
+
+### Create Task 1 (High priority)
+POST http://127.0.0.1:5000/tasks/
+Content-Type: application/json
+
+{
+  "task_id": 101,
+  "title": "Complete project documentation",
+  "description": "Write comprehensive documentation for the task management system",
+  "due_date": "2025-07-15",
+  "priority": "HIGH"
+}
+
+### Create Task 2 (Medium priority, assigned to Alice)
+POST http://127.0.0.1:5000/tasks/
+Content-Type: application/json
+
+{
+  "task_id": 102,
+  "title": "Implement authentication",
+  "description": "Add user authentication and authorization to the API",
+  "due_date": "2025-07-20",
+  "priority": "MEDIUM",
+  "user_id": 1
+}
+
+### Create Task 3 (Low priority, assigned to Bob)
+POST http://127.0.0.1:5000/tasks/
+Content-Type: application/json
+
+{
+  "task_id": 103,
+  "title": "Write unit tests",
+  "description": "Create comprehensive test cases for all endpoints",
+  "due_date": "2025-07-25",
+  "priority": "LOW",
+  "user_id": 2
+}
+
+### 3. View Operations
+
+### Get All Users
+GET http://127.0.0.1:5000/users/
+
+### Get User 1 with Tasks
+GET http://127.0.0.1:5000/users/1
+
+### Get All Tasks
+GET http://127.0.0.1:5000/tasks/
+
+### Get Tasks by Status (TO DO)
+GET http://127.0.0.1:5000/tasks/?status=TO DO
+
+### Get Tasks by User ID (User 1 - Alice)
+GET http://127.0.0.1:5000/tasks/?user_id=1
+
+### Get Single Task (Task 101)
+GET http://127.0.0.1:5000/tasks/101
+
+### 4. Task Updates
+
+### Update Task Status (Task 102 to IN PROGRESS)
+PUT http://127.0.0.1:5000/tasks/102/status
+Content-Type: application/json
+
+{
+  "status": "IN PROGRESS"
+}
+
+### Update Task Priority (Task 103 to MEDIUM)
+PUT http://127.0.0.1:5000/tasks/103/priority
+Content-Type: application/json
+
+{
+  "priority": "MEDIUM"
+}
+
+### Update Task (Complete Task 101)
+PUT http://127.0.0.1:5000/tasks/101
+Content-Type: application/json
+
+{
+  "status": "DONE",
+  "description": "Documentation completed and reviewed by the team"
+}
+
+### 5. Task Assignment
+
+### Assign Task 101 to User 2 (Bob)
+PUT http://127.0.0.1:5000/tasks/101
+Content-Type: application/json
+
+{
+  "user_id": 2
+}
+
+### 6. Check Updated Tasks
+
+### Get All Tasks Again (should show updated statuses and assignments)
+GET http://127.0.0.1:5000/tasks/
+
+### Get User 2's Tasks (should include newly assigned task)
+GET http://127.0.0.1:5000/users/2
+
+### Get Tasks by Status (IN PROGRESS)
+GET http://127.0.0.1:5000/tasks/?status=IN PROGRESS
+
+### Get Tasks by Status (DONE)
+GET http://127.0.0.1:5000/tasks/?status=DONE
+
+### 7. Delete Operations
+
+### Delete Task 103
+DELETE http://127.0.0.1:5000/tasks/103
+
+### Verify Task 103 is Gone
+GET http://127.0.0.1:5000/tasks/103
